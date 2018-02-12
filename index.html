@@ -133,8 +133,9 @@
                 min = min < 10 ? `0${min}` : min;
                 sec = sec < 10 ? `0${sec}` : sec;
                 // get AM / PM
-                var ampm = date.getHours > 12 ? 'PM' : 'AM' 
+                var ampm = date.getHours() > 12 ? 'PM' : 'AM' 
 
+                // Push clock text
                 digitalClock.textContent = `${hour} : ${min} : ${sec} ${ampm}`;
 
                 // Clock tick sound
