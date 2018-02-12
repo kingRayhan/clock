@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS CLOCK</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        @font-face {
+            font-family: 'alarm_clockregular';
+            src: url('fonts/alarm_clock-webfont.woff2') format('woff2'),
+                url('fonts/alarm_clock-webfont.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body,html{
+            height: 100%;
+            width: 100%;
+            background-color: tomato;
+        }
+        .clock-hoder{
+            margin-top: 155px;
+        }
+        .clock{
+            border: 20px solid #FFF;
+            height: 20rem;
+            width: 20rem;
+            margin: 50px auto;
+            border-radius: 50%;
+            position: relative;
+        }
+        .hand{
+            position: absolute;
+            height: 3px;
+            width: 50%;
+            background-color: #FFF;
+            top: 50%;
+            transform-origin: 100%;
+            transform: rotate(90deg);
+            border-radius: 8px 0 0 8px;
+            transition: all 0.05s;
+            transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+        }
+        .hour-hand{
+            width: 40%;
+            left: 10%;
+            height: 6px;
+        }
+        .min-hand{
+            width: 45%;
+            left: 5%;
+            height: 4px;
+        }
+        .second-hand{
+            width: 49%;
+            left: 1%;
+        }
+        .dot{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 20px;
+            width: 20px;
+            background-color: tomato;
+            transform: translate(-50%,-50%);
+            z-index: 999;
+            border-radius: 50%;
+            border: 4px solid #FFF;
+        }
+        .digital-clock{
+            font-family: 'alarm_clockregular';
+            text-align: center;
+            color: #FFF;
+            font-size: 65px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="clock-hoder">
+        <div class="clock">
+            <div class="dot"></div>
+            <div class="hand hour-hand"></div>
+            <div class="hand min-hand"></div>
+            <div class="hand second-hand"></div>
+        </div>
+        <div class="digital-clock">
+            <span></span>
+        </div>
+    </div>
+    <audio src="tink.wav"></audio>
+    <script>
+            var hands = {
+                hour: document.querySelector('.hour-hand'),
+                minute: document.querySelector('.min-hand'),
+                second: document.querySelector('.second-hand')
+            }
+            var digitalClock = document.querySelector('.digital-clock span');
+            function setDate()
+            {
+                var date = new Date;
+                var sec = date.getSeconds();
+                var hour = date.getHours() %12;
+                var ampm = date.getHours > 12 ? 'PM' : 'AM'
+                var min = date.getMinutes();
+                
+                hands.second.style.setProperty('transform' , `rotate(${(sec * 6 ) + 90}deg)`);
+                hands.minute.style.setProperty('transform' , `rotate(${(min * 6 )+ 90}deg)`);
+                hands.hour.style.setProperty('transform' , `rotate(${(hour * 30 )+ 90}deg)`);
+
+                
+                digitalClock.textContent = `${hour} : ${min} : ${sec} ${ampm}`;
+
+                // Clock tick sound
+                var audio = document.querySelector('audio');
+                audio.volume = .3; // reduce audio sound (30%)
+                audio.play();
+            }
+            setInterval( setDate , 1000);
+        </script>
+</body>
+</html>
